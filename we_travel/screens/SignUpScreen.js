@@ -16,7 +16,6 @@ import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import { signupEmailPass } from "../firebase/AuthModel";
 
-
 // subscribe for more videos like this :)
 export default function SignUpScreen() {
   const navigation = useNavigation();
@@ -48,14 +47,14 @@ export default function SignUpScreen() {
   };
 
   const unsuccess = (msg) => {
-    console.log(msg)
-    Alert.alert(msg)
-  }
+    console.log(msg);
+    Alert.alert(msg);
+  };
 
   const allSuccess = (doc) => {
-    Alert.alert(`${doc.firstname} has been added to system`)
-    navigation.goBack()
-  }
+    Alert.alert(`${doc.firstname} has been added to system`);
+    navigation.goBack();
+  };
 
   const onSignupPress = async () => {
     if (profile.fullname && profile.email && profile.password) {
@@ -63,12 +62,16 @@ export default function SignUpScreen() {
         console.log(`Fullname: ${profile.fullname}`);
         console.log(`Email: ${profile.email}`);
         console.log(`Password: ${profile.password}`);
-        signupEmailPass(profile, allSuccess, unsuccess)
+        signupEmailPass(profile, allSuccess, unsuccess);
       } catch (err) {
         console.log("got error:", err);
       }
-    } else {
+    } else if (profile.fullname == "") {
       Alert.alert("Alert", "Please fill your Name");
+    } else if (profile.email == "") {
+      Alert.alert("Alert", "Please fill your Email");
+    } else if (profile.password == "") {
+      Alert.alert("Alert", "Please fill your Password");
     }
   };
 
@@ -84,7 +87,7 @@ export default function SignUpScreen() {
               onPress={() => navigation.goBack()}
               className="p-2 rounded-tr-2xl rounded-bl-2xl ml-4"
             >
-              <ArrowLeftIcon size="20" color="white" />
+              <ArrowLeftIcon size="20" color="black" />
             </TouchableOpacity>
           </View>
           <View className="flex-row justify-center">

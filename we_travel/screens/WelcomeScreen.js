@@ -10,7 +10,7 @@ export default function WelcomeScreen() {
     <SafeAreaView className="flex-1" style={{backgroundColor: themeColors.bg}}>
         <View className="flex-1 flex justify-around my-4">
             <Text 
-                className="text-white font-bold text-4xl text-center">
+                className="text-black font-bold text-4xl text-center">
                 We Travel !!
             </Text>
             <View className="flex-row justify-center">
@@ -20,7 +20,7 @@ export default function WelcomeScreen() {
             <View className="space-y-4">
                 <TouchableOpacity
                     onPress={()=> navigation.navigate('SignUp')}
-                    className="py-3 bg-yellow-400 mx-7 rounded-xl">
+                    className="py-3 bg-gray-200 mx-7 rounded-xl">
                         <Text 
                             className="text-xl font-bold text-center text-gray-700"
                         >
@@ -28,7 +28,7 @@ export default function WelcomeScreen() {
                         </Text>
                 </TouchableOpacity>
                 <View className="flex-row justify-center">
-                    <Text className="text-white font-semibold">Already have an account?</Text>
+                    <Text className="text-gray-500 font-semibold">Already have an account?</Text>
                     <TouchableOpacity onPress={()=> navigation.navigate('Login')}>
                         <Text className="font-semibold text-yellow-400"> Log In</Text>
                     </TouchableOpacity>
