@@ -109,7 +109,8 @@ export default function HomeScreen() {
         <ScrollView>
           <View>
           <View className="items-center justify-between px-9 py-3">
-        <TouchableOpacity className="bg-gray-400 rounded-md justify-center shadow-lg">
+        <TouchableOpacity className="bg-gray-400 rounded-md justify-center shadow-lg"
+        onPress={() => navigation.navigate("SearchFlights")}>
           <Image
             source={require("../assets/images/plane.png")}
             style={{ width: 380, height: 200 }}
