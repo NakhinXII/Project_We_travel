@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
+import CreaterScreen from "../screens/CreaterScreen";
+import ItemScreen from "../screens/ItemScreen";
 import SignUpScreen from "../screens/SignUpScreen";
 import useAuth from "../hooks/useAuth";
 import SearchForm from "../screens/SearchScreen";
@@ -23,6 +25,16 @@ export default function AppNavigation() {
             name="Home"
             options={{ headerShown: false }}
             component={HomeScreen}
+          />
+          <Stack.Screen
+            name="ItemScreen"
+            // options={{ headerShown: false }}
+            component={ItemScreen}
+          />
+          <Stack.Screen
+            name="CreaterScreen"
+            options={{ headerShown: false }}
+            component={CreaterScreen}
           />
           <Stack.Screen
             name="SearchFlights"
