@@ -20,6 +20,11 @@ export default function AppNavigation() {
       {user ? (
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen
+            name="Home"
+            options={{ headerShown: false }}
+            component={HomeScreen}
+          />
+          <Stack.Screen
             name="SearchFlights"
             options={() => ({
               title: "Search Flights",
