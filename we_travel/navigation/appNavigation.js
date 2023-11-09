@@ -54,8 +54,7 @@ export default function AppNavigation() {
                 return (
                   <TouchableOpacity
                     style={{ marginLeft: 16 }}
-                    // onPress={() => navigation.goBack()}
-                    onPress={onSignoutPress}
+                    onPress={() => navigation.goBack()}
                   >
                     <ArrowLeftIcon size="20" color="black" />
                   </TouchableOpacity>
