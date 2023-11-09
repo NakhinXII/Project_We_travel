@@ -8,7 +8,7 @@ export default useAuth = () => {
 
   useEffect(() => {
     const check = onAuthStateChanged(auth, (user) => {
-      console.log("User Sign in: ", user);
+      console.log("User Sign in: ", user.email);
       if (user) {
         setuser(user);
       } else {

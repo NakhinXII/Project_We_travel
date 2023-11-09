@@ -7,25 +7,86 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  FlatList,
+  ActivityIndicator,
+  ScrollView,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Feather } from "@expo/vector-icons";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import data from "../data.json";
+import { Ionicons } from "@expo/vector-icons";
+import { GetFlightSearch } from "../api/SearchFlight";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
-
-export default function SearchForm({ onSearch }) {
+export default function SearchForm({}) {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [departDate, setDepartDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
+  const [items, setitems] = useState([]);
+  const [isloading, setIsloading] = useState(false);
 
-  const onSearchPress = () => {
-    // onSearch({ from, to, departDate, returnDate });
-    const navigation = useNavigation();
-    navigation.navigate("Login")
+  const [searchword, setSearchword] = useState({ wordfrom: "", wordto: "" });
+
+  const navigation = useNavigation();
+
+  const handleFromLocationSelect = (data, details = null) => {
+    setSearchword((prevSearchword) => ({
+      ...prevSearchword,
+      wordfrom: data.description,
+    }));
+  };
+
+  const handleToLocationSelect = (data, details = null) => {
+    setSearchword((prevSearchword) => ({
+      ...prevSearchword,
+      wordto: data.description,
+    }));
+  };
+
+  const searchFlights = () => {
+    GetFlightSearch(searchword);
+  };
+
+  useEffect(() => {
+    setIsloading(true);
+    setInterval(() => {
+      setIsloading(false);
+    }, 2000);
+  }, []);
+
+  const FlightList = ({ flight }) => {
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.routes}>
+            <View style={styles.route}>
+              <Text style={styles.time}>
+                {flight.from.departAt}{" "}
+                <Ionicons name="airplane" size={16} color="gray" />{" "}
+                {flight.from.arriveAt}
+              </Text>
+              <Text style={styles.airline}>{flight.from.airline}</Text>
+            </View>
+
+            <View style={styles.route}>
+              <Text style={styles.time}>
+                {flight.to.departAt}{" "}
+                <Ionicons name="airplane" size={16} color="gray" />{" "}
+                {flight.to.arriveAt}
+              </Text>
+              <Text style={styles.airline}>{flight.to.airline}</Text>
+            </View>
+          </View>
+
+          <Text style={styles.price}>{flight.price}</Text>
+        </View>
+      </ScrollView>
+    );
   };
 
   const image = { uri: "https://i.ibb.co/2vWKRkF/Global-Map.png" };
@@ -40,26 +101,36 @@ export default function SearchForm({ onSearch }) {
             a New world
           </Text>
         </View>
-        <View>
-          <View style={styles.card} className="my-14">
-            <Text style={styles.title}>
-              Search the best prices for your next trip
-            </Text>
-
-            <TextInput
+        <View style={styles.card}>
+          <View className="flex-row items-center border my-2">
+            <GooglePlacesAutocomplete
+              GooglePlacesDetailsQuery={{ fields: "geometry" }}
+              placeholder="From"
+              onPress={handleFromLocationSelect}
+              query={{
+                key: "AIzaSyAwNg47yOpCth8g_Z5t58W4tzNDs4HF10Y", // Replace with your API key
+                language: "en",
+              }}
+            />
+          </View>
+          <View className="flex-row items-center border my-2">
+            {/* <TextInput
+              style={styles.input}
+              placeholder="From"
               value={from}
               onChangeText={setFrom}
-              placeholder="From"
-              style={styles.input}
+            /> */}
+            <GooglePlacesAutocomplete
+              GooglePlacesDetailsQuery={{ fields: "geometry" }}
+              placeholder="to"
+              onPress={handleToLocationSelect}
+              query={{
+                key: "AIzaSyAwNg47yOpCth8g_Z5t58W4tzNDs4HF10Y", // Replace with your API key
+                language: "en",
+              }}
             />
-
-            <TextInput
-              value={to}
-              onChangeText={setTo}
-              placeholder="To"
-              style={styles.input}
-            />
-
+          </View>
+          <View>
             <View style={styles.datePicker}>
               <Feather name="calendar" size={26} color="gray" />
               <DateTimePicker
@@ -78,10 +149,19 @@ export default function SearchForm({ onSearch }) {
                 minimumDate={departDate}
               />
             </View>
-
-            <Button title="Search" onPress={onSearchPress} />
           </View>
+          <Button title="Search" onPress={searchFlights} />
         </View>
+        {isloading ? (
+          <View className="flex-1 items-center mt-32">
+            <ActivityIndicator size="large" color="white" />
+          </View>
+        ) : (
+          <FlatList
+            data={items}
+            renderItem={({ item }) => <FlightList flight={item} />}
+          ></FlatList>
+        )}
       </ImageBackground>
     </SafeAreaView>
   );
@@ -114,7 +194,7 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    borderWidth: 1,
+    flex: 1,
     borderColor: "gainsboro",
     padding: 10,
     marginVertical: 5,
@@ -130,5 +210,40 @@ const styles = StyleSheet.create({
 
     flexDirection: "row",
     alignItems: "center",
+  },
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
+    marginVertical: 5,
+    marginHorizontal: 10,
+    padding: 15,
+    borderRadius: 10,
+  },
+  routes: {
+    flex: 1,
+    borderRightWidth: 1,
+    borderColor: "gainsboro",
+    gap: 10,
+    paddingRight: 10,
+  },
+  route: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  time: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "dimgray",
+    fontFamily: "Courier New",
+  },
+  airline: {
+    color: "gray",
+  },
+  price: {
+    width: 75,
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });

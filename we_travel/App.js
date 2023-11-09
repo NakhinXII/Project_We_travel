@@ -1,6 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import AppNavigation from './navigation/appNavigation';
+import { StatusBar } from "expo-status-bar";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import AppNavigation from "./navigation/appNavigation";
+import React from "react";
+import { Provider } from "react-redux";
 
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,9 +11,10 @@ import AppNavigation from './navigation/appNavigation';
 
 // const Tab = createBottomTabNavigator();
 
-
-export default function App() {
-  return (
-    <AppNavigation />
+const App = () => {
+  return(
+      <AppNavigation />
   );
-}
+};
+
+export default App;
