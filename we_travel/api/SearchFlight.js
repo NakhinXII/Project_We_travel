@@ -41,7 +41,7 @@ export const GetFlightSearch = async (searchword) => {
     console.log("Codes To: ", codesTo);
 
     // Now, you can store the codesFrom and codesTo values in lists or use them as needed.
-    dispatch(setFlightCodes(codesFrom, codesTo));
+
     
   } catch (error) {
     console.error(error);

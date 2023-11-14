@@ -50,6 +50,7 @@ export default function SearchForm({}) {
 
   const searchFlights = () => {
     GetFlightSearch(searchword);
+    setitems(data)
   };
 
   useEffect(() => {
@@ -102,7 +103,7 @@ export default function SearchForm({}) {
           </Text>
         </View>
         <View style={styles.card}>
-          <View className="flex-row items-center border my-2">
+          <View className="flex-row items-center border my-2 rounded-2xl p-1">
             <GooglePlacesAutocomplete
               GooglePlacesDetailsQuery={{ fields: "geometry" }}
               placeholder="From"
@@ -113,7 +114,7 @@ export default function SearchForm({}) {
               }}
             />
           </View>
-          <View className="flex-row items-center border my-2">
+          <View className="flex-row items-center border my-2 rounded-2xl p-1">
             {/* <TextInput
               style={styles.input}
               placeholder="From"
