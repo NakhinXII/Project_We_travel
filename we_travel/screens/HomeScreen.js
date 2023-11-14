@@ -34,7 +34,6 @@ export default function HomeScreen() {
   useEffect(() => {
     setisLoading(true);
     getPlacesData(bl_lat, bl_lng, tr_lat, tr_lng, type).then((data) => {
-      console.log(data); // แสดงข้อมูลที่ได้รับจาก API
       setMainData(data);
       setInterval(() => {
         setisLoading(false);
