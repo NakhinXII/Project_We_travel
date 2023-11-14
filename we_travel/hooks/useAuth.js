@@ -2,13 +2,12 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "../firebase/connect";
 
-
-export default useAuth = () => {
+const useAuth = () => {
   const [user, setuser] = useState(null);
 
   useEffect(() => {
     const check = onAuthStateChanged(auth, (user) => {
-      console.log("User Sign in: ", user.email);
+      console.log("User Sign in: ", user ? user.email : "No user");
       if (user) {
         setuser(user);
       } else {
@@ -16,6 +15,9 @@ export default useAuth = () => {
       }
     });
     return check;
-  },[]);
-  return {user}
+  }, []);
+
+  return { user };
 };
+
+export default useAuth;
