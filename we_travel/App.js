@@ -3,7 +3,6 @@ import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import AppNavigation from "./navigation/appNavigation";
 import React from "react";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
 
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -13,10 +12,8 @@ import { store } from "./redux/store";
 // const Tab = createBottomTabNavigator();
 
 const App = () => {
-  return (
-    <Provider store={store}>
+  return(
       <AppNavigation />
-    </Provider>
   );
 };
 
